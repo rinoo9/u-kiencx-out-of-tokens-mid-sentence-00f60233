@@ -13,13 +13,23 @@ import os
 LINE = "Error: I had one token left. I spent it on this error message."
 
 
+def render_line() -> str:
+    """Return the entry line exactly as it must be printed and written.
+
+    Kept as a helper (instead of inlining the constant twice) so the
+    stdout line and the file content can never drift apart: both call
+    sites below go through this one function.
+    """
+    return LINE
+
+
 def main() -> None:
     out_dir = os.environ.get("OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, "entry.txt")
     with open(path, "w", encoding="utf-8", newline="\n") as f:
-        f.write(LINE)
-    print(LINE)
+        f.write(render_line())
+    print(render_line())
 
 
 if __name__ == "__main__":
